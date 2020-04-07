@@ -49,7 +49,7 @@ In the forward phase, the autograd tape will remember all the operations it exec
 - cv2:-
 - PyQt5.Qtcore:-
 - Qtgui,QtWidgets:-
-->copy:-
+- copy:-
 
 # 2.) Project Running:-
 - Windows/Linux
@@ -59,7 +59,7 @@ In the forward phase, the autograd tape will remember all the operations it exec
 1. Install Pytorch and PyQt5 in your Anaconda Navigator From Anaconda Prompt through Below Commands
 2.This yolov3 file is big. So i have posted link overhere So before moving further step you need to download this in your pc and you have to paste it into "Algo" File which i have Submitted Empty for that.
 The Link is:-[here](https://pjreddie.com/media/files/yolov3.weights)
-3.After that please run this project's main file through "Anaconda Command Prompt" by giving path of that specific file. And then write:- python main.py
+3.After that please run this project's main file through "Anaconda Command Prompt" by giving path of that specific file. And then write:- python Main.py
 4. After that GUI will open and First You need to Select the video From "input-Output" File (Which i have puted overhere) and then Select the appropriate Area by clicking double click on mouse and then Start the video then You will be able to see the Proper Live Running of Project.
 5. After that Final Result will be stored in final.txt in Final directory with Proper Format.
 Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:- demo1 1 car etc.
