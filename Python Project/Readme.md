@@ -65,9 +65,9 @@ The Link is:-[here](https://pjreddie.com/media/files/yolov3.weights)
 Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:- demo1 1 car etc.
 
 # 3.) Sample Input-Output:-
-![avatar](https://github.com/Harshrajsinh-Solanki/raw/master/input-output/output1.gif)
+![avatar](https://github.com/Harshrajsinh-Solanki/raw/master/input-output/demo1.gif)
 
-![avatar](https://github.com/Harshrajsinh-Solanki/raw/master/input-output/output2.gif)
+![avatar](https://github.com/Harshrajsinh-Solanki/raw/master/input-output/demo2.gif)
 
 # 4.) Challenges:-
 This Project Can Run For Most of the Real World Videos but it depends on the speed of the video.
