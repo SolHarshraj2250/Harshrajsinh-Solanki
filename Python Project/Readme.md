@@ -56,8 +56,9 @@ In the forward phase, the autograd tape will remember all the operations it exec
 - python>=3.5
 
 ## Steps For Runnning this Project:-
-1. Install Pytorch and PyQt5 in your Anaconda Navigator From Anaconda Prompt through Below Commands
-2. This yolov3 file is big. So i have posted link overhere So before moving further step you need to download this in your pc and you have to paste it into "Algo" File which i have Submitted Empty for that.
+1. Install Pytorch and PyQt5 in your Anaconda Navigator From Anaconda Prompt through Below Commands:-
+- pip install Pytorch
+2. This yolov3 file is big. So i have posted link overhere So before moving further step you need to download this in your pc and you have to paste it into "Algo" Folder which i have Submitted Empty for that.
 The Link is:-[link_(Dataset)](https://pjreddie.com/media/files/yolov3.weights)
 3. After that please run this project's main file through "Anaconda Command Prompt" by giving path of that specific file. And then write:- python Main.py
 4. After that GUI will open and First You need to Select the video From "input-Output" File (Which i have puted overhere) and then Select the appropriate Area by clicking double click on mouse and then Start the video then You will be able to see the Proper Live Running of Project.
@@ -65,9 +66,9 @@ The Link is:-[link_(Dataset)](https://pjreddie.com/media/files/yolov3.weights)
 Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:- demo1 1 car etc.
 
 # 3.) Sample Input-Output:-
-![Output1](Input-Output/o1.gif)
+![Output1](Input-Output/Final1.gif)
 
-![Output2](Input-Output/Output2.mp4)
+![Output2](Input-Output/Final2.gif)
 
 # 4.) Challenges:-
 - This Project Can Run For Most of the Real World Videos but it depends on the speed of the video.
