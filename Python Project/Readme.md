@@ -4,11 +4,11 @@
 Currently We all know Traffic and Road Maintaince is one of the biggest issue across all over the World. So overcome that Problem We have tried to implement this Project.In this Project, I had used Python as my base lanquage and I had used Pytorch and Pyqt5 kind of Apis and other useful Apis to complete this project with best of my Effort.
 Also We have taken the help of the yolov3 and sort algorithm for object detection to implement this project.
 # APIS Information (Which New API We have Used and For What Purpose):-
-- torch:-
+1. torch:-
 Torch is an open-source machine learning library, a scientific computing framework, and a script language based on the Lua programming language. 
 It provides a wide range of algorithms for deep learning, and uses the scripting language LuaJIT, and an underlying C implementation.
 
-- torch.nn.functional:-
+2. torch.nn.functional:-
 functional provides some layers / activations in form of functions that can be directly called on the input rather than
 defining the an object. For example, in order to rescale an image tensor, you call torch
 
