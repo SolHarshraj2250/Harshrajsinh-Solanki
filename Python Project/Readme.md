@@ -65,7 +65,7 @@ The Link is:-[link_(Dataset)](https://pjreddie.com/media/files/yolov3.weights)
 Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:- demo1 1 car etc.
 
 # 3.) Sample Input-Output:-
-![Output1](Input-Output/Output1.mp4)
+![Output1](Input-Output/o1.mp4)
 
 ![Output2](Input-Output/Output2.mp4)
 
