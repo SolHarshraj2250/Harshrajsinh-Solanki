@@ -4,9 +4,9 @@
 Currently We all know Traffic and Road Maintaince is one of the biggest issue across all over the World. So overcome that Problem We have tried to implement this Project.In this Project, I had used Python as my base lanquage and I had used Pytorch and Pyqt5 kind of Apis and other useful Apis to complete this project with best of my Effort.
 Also We have taken the help of the yolov3 and sort algorithm for object detection to implement this project.
 # APIS Information (Which New API We have Used?):-
-- Opencv
+- Opencv (For Reading a Video and to Manipulate it)
 - PYQT5 (For GUI Purpose)
-- Pytorch (To Perform Tensor Computing)
+- Pytorch (To Perform Tensor Computing For Multidimensional Array (Tensor))
 - For Which Purpose We have use this apis brief Information is given in the seperate pdf file for that just click on the below link:-
 ![Api](API/Information_about_api.pdf)
 
@@ -33,7 +33,7 @@ Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:-
 
 # 4.) Benefits of this Project to the Real World:-
 - As We Know in Real World there are lots of Problem is going on. One of them is Traffic and Road Maintainance (Especially in India). Everybody is Suffering through this problem.So From this Project we can Count the Number of Different type of Vehicles running onto the Road. So we need Some Automation System For that because through Human the task will become tedious. So Through this System We can Predict after how much time this Road should be Maintained and We can also Predict that at Which time Traffic will be more or less For that Just We need the CCTV Video From Government for this.
-# 5.) Challenges:- (Means We can Extend this Project to Higher Scale Real World need)
+# 5.) Challenges:- (Means We can Extend this Project to Higher Scale Based On Real World need)
 - Detection pf NumberPlate of Objects
 - Face Detection of Person Who is Inside the Objects
 # Contact Info:-
