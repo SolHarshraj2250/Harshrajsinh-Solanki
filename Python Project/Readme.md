@@ -8,7 +8,7 @@ Also We have taken the help of the yolov3 and sort algorithm for object detectio
 - PYQT5 (For GUI Purpose)
 - Pytorch (To Perform Tensor Computing For Multidimensional Array (Tensor))
 - For Which Purpose We have use this apis brief Information is given in the seperate pdf file for that just click on the below link:-
-[API]()
+[API](https://github.com/SolHarshraj2250/Harshrajsinh-Solanki/blob/B.tech/Python%20Project/API/Information%20about%20apis.pdf)
 
 # 2.) Project Running:-
 ## Requirements:-
