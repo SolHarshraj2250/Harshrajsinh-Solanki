@@ -1,15 +1,14 @@
-from __future__ import print_function
-from numba import jit
-import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from skimage import io
 import glob
+from __future__ import print_function
 from sklearn.utils.linear_assignment_ import linear_assignment
-# from scipy.optimize import linear_sum_assignment
 import time
+import os.path
 import argparse
+from numba import jit
 from filterpy.kalman import KalmanFilter
 def iou(bb_test,bb_gt):
   """
