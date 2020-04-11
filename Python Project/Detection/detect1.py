@@ -1,20 +1,20 @@
-from __future__ import division
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import math
 import time
+import tensorflow as tf
 import tqdm
 import torch
 import glob
 import random
 import os
 import sys
+from __future__ import division
 import torch.nn as nn
 from PIL import Image
 import torch.nn.functional as F
 from torch.autograd import Variable
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import tensorflow as tf
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 def pad_to_square(img, pad_value):
@@ -248,7 +248,6 @@ def ap_per_class(tp, conf, pred_cls, target_cls):
     return p, r, ap, f1, unique_classes.astype("int32")
 def compute_ap(recall, precision):
     """ Compute the average precision, given the recall and precision curves.
-    Code originally from https://github.com/rbgirshick/py-faster-rcnn.
     # Arguments
         recall:    The recall curve (list).
         precision: The precision curve (list).
