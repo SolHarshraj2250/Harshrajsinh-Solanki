@@ -24,7 +24,7 @@ The Link is:-[link_(Dataset)](https://pjreddie.com/media/files/yolov3.weights)
 3. After that please run this project's main file through "Anaconda Command Prompt" by giving path of that specific file. And then write:- python Main.py
 4. After that GUI will open and First You need to Select the video From "input-Output" File (Which i have puted overhere) and then Select the appropriate Area by clicking double click on mouse and then Start the video then You will be able to see the Proper Live Running of Project.
 5. After that Final Result will be stored in final.txt in Final directory with Proper Format.
-Like the Format is:- [videoname, id, objectname] for each Vehicle. For Example:- demo1 1 car etc.
+Like the Format is:- [Videoname, Count, Objectname] for each Vehicle. For Example:- Input1 1 bicycle etc.
 
 # 3.) Sample Input-Output:-
 ![Output1](Input-Output/Final1.gif)
