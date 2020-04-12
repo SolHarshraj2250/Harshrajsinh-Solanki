@@ -34,7 +34,7 @@ Like the Format is:- [Videoname, Count, Objectname] for each Vehicle. For Exampl
 # 4.) Benefits of this Project to the Real World:-
 - As We Know in Real World there are lots of Problem is going on. One of them is Traffic and Road Maintainance (Especially in India). Everybody is Suffering through this problem.So From this Project we can Count the Number of Different type of Vehicles running onto the Road. So we need Some Automation System For that because through Human the task will become tedious. So Through this System We can Predict after how much time this Road should be Maintained and We can also Predict that at Which time Traffic will be more or less For that Just We need the CCTV Video From Government for this.
 # 5.) Challenges:- (Means We can Extend this Project to Higher Scale Based On Real World need)
-- Detection pf NumberPlate of Objects
+- Detection Of NumberPlate of Objects
 - Face Detection of Person Who is Inside the Objects
 # Contact Info:-
 - For any Queries you can mail us on below Email-ids:-
