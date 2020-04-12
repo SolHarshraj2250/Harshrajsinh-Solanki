@@ -1,3 +1,4 @@
+from __future__ import division
 #=======================================================================================
 #Importing Necessarry or Required APIS or Packages:-
 #=======================================================================================
@@ -10,14 +11,12 @@ from PyQt5.QtCore import  QThread, pyqtSignal
 from PyQt5 import QtCore, QtGui, QtWidgets
 #For Detecting the Objects:-
 from config import *
-#
+#For Image Manipulation after Saving them in Different Format:- 
 from PIL import Image
 import copy
 #For Importing Other ".py" Files of My Project:-
-from detection.detect2 import *
-from detection.detect1 import *
-#
-from __future__ import division
+from Detection.detect2 import *
+from Detection.detect1 import *
 #To Compute Tensor Computing (Multidimensional Array Computing):-
 import torch
 import torch.nn as nn
@@ -52,7 +51,7 @@ class CounterThread(QThread):
         self.device = device
         self.permission = names
         self.colorDict = color_dict
-        # create instance of SORT
+        #To Create instance of SORT:-
         self.mot_tracker = Sort(max_age=10, min_hits=2)
         self.countArea = None
         self.running_flag = 0
@@ -380,7 +379,7 @@ class YOLOLayer(nn.Module):
         self.anchor_w = self.scaled_anchors[:, 0:1].view((1, self.num_anchors, 1, 1))
         self.anchor_h = self.scaled_anchors[:, 1:2].view((1, self.num_anchors, 1, 1))
     def forward(self, x, targets=None, img_dim=None):
-        #For Tensors for cuda support:-
+        #For Tensors for cuda support or For CPU Support (Normal):-
         FloatTensor = torch.cuda.FloatTensor if x.is_cuda else torch.FloatTensor
         LongTensor = torch.cuda.LongTensor if x.is_cuda else torch.LongTensor
         ByteTensor = torch.cuda.ByteTensor if x.is_cuda else torch.ByteTensor
@@ -625,7 +624,7 @@ class Ui_mainWindow(object):
         self.verticalLayout_2.addLayout(self.gridLayout_count)
         self.label_image = QtWidgets.QLabel(self.centralwidget)
         self.label_image.setGeometry(QtCore.QRect(10, 10, 960, 540))
-        self.label_image.setStyleSheet("background-color: rgb(233, 185, 110);")
+        self.label_image.setStyleSheet("background-color: rgb(3, 187, 133);")
         self.label_image.setText("")
         self.label_image.setAlignment(QtCore.Qt.AlignCenter)
         self.label_image.setObjectName("label_image")
@@ -784,7 +783,7 @@ class App(QMainWindow,Ui_mainWindow):
         self.label_image.repaint()
     def start_count(self):
         if self.running_flag == 0:
-            #To Clear count and display:-
+            #To Clear Count and display:-
             KalmanBoxTracker.count = 0
             for item in self.show_label:
                 vars(self)[f"label_{item}"].setText('0')
