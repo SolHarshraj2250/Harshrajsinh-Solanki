@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -10,7 +11,6 @@ import glob
 import random
 import os
 import sys
-from __future__ import division
 import torch.nn as nn
 from PIL import Image
 import torch.nn.functional as F
@@ -20,13 +20,14 @@ import torchvision.transforms as transforms
 def pad_to_square(img, pad_value):
     c, h, w = img.shape
     dim_diff = np.abs(h - w)
-    # (upper / left) padding and (lower / right) padding
+    #To (upper / left) padding and (lower / right) padding:-
     pad1, pad2 = dim_diff // 2, dim_diff - dim_diff // 2
-    # Determine padding
+    #To Determine padding:-
     pad = (0, 0, pad1, pad2) if h <= w else (pad1, pad2, 0, 0)
-    # Add padding
+    #To Add padding:-
     img = F.pad(img, pad, "constant", value=pad_value)
     return img, pad
+#To 
 def resize(image, size):
     image = F.interpolate(image.unsqueeze(0), size=size, mode="nearest").squeeze(0)
     return image
@@ -40,11 +41,11 @@ class ImageFolder(Dataset):
         self.img_size = img_size
     def __getitem__(self, index):
         img_path = self.files[index % len(self.files)]
-        # Extract image as PyTorch tensor
+        #For Extract image as PyTorch tensor:-
         img = transforms.ToTensor()(Image.open(img_path))
-        # Pad to square resolution
+        #For Pad to square resolution:-
         img, _ = pad_to_square(img, 0)
-        # Resize
+        #For Resize:-
         img = resize(img, self.img_size)
         return img_path, img
     def __len__(self):
@@ -66,61 +67,61 @@ class ListDataset(Dataset):
         self.batch_count = 0
     def __getitem__(self, index):
         # ---------
-        #  Image
+        #For Image:-
         # ---------
         img_path = self.img_files[index % len(self.img_files)].rstrip()
-        # Extract image as PyTorch tensor
+        #For Extract image as PyTorch tensor:-
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
-        # Handle images with less than three channels
+        #To Handle images with less than three Channels:-
         if len(img.shape) != 3:
             img = img.unsqueeze(0)
             img = img.expand((3, img.shape[1:]))
         _, h, w = img.shape
         h_factor, w_factor = (h, w) if self.normalized_labels else (1, 1)
-        # Pad to square resolution
+        #For Pad to square resolution:-
         img, pad = pad_to_square(img, 0)
         _, padded_h, padded_w = img.shape
         # ---------
-        #  Label
+        #For Label:-
         # ---------
         label_path = self.label_files[index % len(self.img_files)].rstrip()
         targets = None
         if os.path.exists(label_path):
             boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
-            # Extract coordinates for unpadded + unscaled image
+            #For Extract coordinates for unpadded + unscaled image:-
             x1 = w_factor * (boxes[:, 1] - boxes[:, 3] / 2)
             y1 = h_factor * (boxes[:, 2] - boxes[:, 4] / 2)
             x2 = w_factor * (boxes[:, 1] + boxes[:, 3] / 2)
             y2 = h_factor * (boxes[:, 2] + boxes[:, 4] / 2)
-            # Adjust for added padding
+            #For Adjust for added padding:-
             x1 += pad[0]
             y1 += pad[2]
             x2 += pad[1]
             y2 += pad[3]
-            # Returns (x, y, w, h)
+            #For Returns (x, y, w, h):-
             boxes[:, 1] = ((x1 + x2) / 2) / padded_w
             boxes[:, 2] = ((y1 + y2) / 2) / padded_h
             boxes[:, 3] *= w_factor / padded_w
             boxes[:, 4] *= h_factor / padded_h
             targets = torch.zeros((len(boxes), 6))
             targets[:, 1:] = boxes
-        # Apply augmentations
+        #To Apply augmentations:-
         if self.augment:
             if np.random.random() < 0.5:
                 img, targets = horisontal_flip(img, targets)
         return img_path, img, targets
     def collate_fn(self, batch):
         paths, imgs, targets = list(zip(*batch))
-        # Remove empty placeholder targets
+        #To Remove empty placeholder targets:-
         targets = [boxes for boxes in targets if boxes is not None]
-        # Add sample index to targets
+        #To Add sample index to targets:-
         for i, boxes in enumerate(targets):
             boxes[:, 0] = i
         targets = torch.cat(targets, 0)
-        # Selects new image size every tenth batch
+        #To Selects new image size every tenth batch:-
         if self.multiscale and self.batch_count % 10 == 0:
             self.img_size = random.choice(range(self.min_size, self.max_size + 1, 32))
-        # Resize images to input shape
+        #To Resize images to input shape:-
         imgs = torch.stack([resize(img, self.img_size) for img in imgs])
         self.batch_count += 1
         return paths, imgs, targets
@@ -147,10 +148,10 @@ def parse_model_config(path):
     file = open(path, 'r')
     lines = file.read().split('\n')
     lines = [x for x in lines if x and not x.startswith('#')]
-    lines = [x.rstrip().lstrip() for x in lines] # get rid of fringe whitespaces
+    lines = [x.rstrip().lstrip() for x in lines] #To get rid of Fringe Whitespaces:-
     module_defs = []
     for line in lines:
-        if line.startswith('['): # This marks the start of a new block
+        if line.startswith('['): #This marks the start of a new block:-
             module_defs.append({})
             module_defs[-1]['type'] = line[1:-1].rstrip()
             if module_defs[-1]['type'] == 'convolutional':
@@ -193,13 +194,13 @@ def weights_init_normal(m):
 def rescale_boxes(boxes, current_dim, original_shape):
     """ Rescales bounding boxes to the original shape """
     orig_h, orig_w = original_shape
-    # The amount of padding that was added
+    #To The amount of padding that was added:-
     pad_x = max(orig_h - orig_w, 0) * (current_dim / max(original_shape))
     pad_y = max(orig_w - orig_h, 0) * (current_dim / max(original_shape))
-    # Image height and width after padding is removed
+    #To Image height and width after padding is removed:-
     unpad_h = current_dim - pad_y
     unpad_w = current_dim - pad_x
-    # Rescale bounding boxes to dimension of original image
+    #To Rescale bounding boxes to dimension of original image:-
     boxes[:, 0] = ((boxes[:, 0] - pad_x // 2) / unpad_w) * orig_w
     boxes[:, 1] = ((boxes[:, 1] - pad_y // 2) / unpad_h) * orig_h
     boxes[:, 2] = ((boxes[:, 2] - pad_x // 2) / unpad_w) * orig_w
@@ -213,12 +214,12 @@ def xywh2xyxy(x):
     y[..., 3] = x[..., 1] + x[..., 3] / 2
     return y
 def ap_per_class(tp, conf, pred_cls, target_cls):
-    # Sort by objectness
+    #To Sort by objectness:-
     i = np.argsort(-conf)
     tp, conf, pred_cls = tp[i], conf[i], pred_cls[i]
-    # Find unique classes
+    #To Find unique classes:-
     unique_classes = np.unique(target_cls)
-    # Create Precision-Recall curve and compute AP for each class
+    #To Create Precision-Recall curve and compute AP for each class:-
     ap, p, r = [], [], []
     for c in tqdm.tqdm(unique_classes, desc="Computing AP"):
         i = pred_cls == c
@@ -242,7 +243,7 @@ def ap_per_class(tp, conf, pred_cls, target_cls):
             p.append(precision_curve[-1])
             # AP from recall-precision curve
             ap.append(compute_ap(recall_curve, precision_curve))
-    # Compute F1 score (harmonic mean of precision and recall)
+    #To Compute F1 score (harmonic mean of precision and recall):-
     p, r, ap = np.array(p), np.array(r), np.array(ap)
     f1 = 2 * p * r / (p + r + 1e-16)
     return p, r, ap, f1, unique_classes.astype("int32")
@@ -261,8 +262,8 @@ def compute_ap(recall, precision):
     # compute the precision envelope
     for i in range(mpre.size - 1, 0, -1):
         mpre[i - 1] = np.maximum(mpre[i - 1], mpre[i])
-    # to calculate area under PR curve, look for points
-    # where X axis (recall) changes value
+    #To calculate area under PR curve, look for points
+    #To Where X axis (recall) changes value
     i = np.where(mrec[1:] != mrec[:-1])[0]
     # and sum (\Delta recall) * prec
     ap = np.sum((mrec[i + 1] - mrec[i]) * mpre[i + 1])
@@ -284,10 +285,10 @@ def get_batch_statistics(outputs, targets, iou_threshold):
             detected_boxes = []
             target_boxes = annotations[:, 1:]
             for pred_i, (pred_box, pred_label) in enumerate(zip(pred_boxes, pred_labels)):
-                # If targets are found break
+                #If targets are found break
                 if len(detected_boxes) == len(annotations):
                     break
-                # Ignore if label is not one of the target labels
+                #Ignore if label is not one of the target labels
                 if pred_label not in target_labels:
                     continue
                 iou, box_index = bbox_iou(pred_box.unsqueeze(0), target_boxes).max(0)
@@ -308,25 +309,25 @@ def bbox_iou(box1, box2, x1y1x2y2=True):
     Returns the IoU of two bounding boxes
     """
     if not x1y1x2y2:
-        # Transform from center and width to exact coordinates
+        #Transform from center and width to exact coordinates
         b1_x1, b1_x2 = box1[:, 0] - box1[:, 2] / 2, box1[:, 0] + box1[:, 2] / 2
         b1_y1, b1_y2 = box1[:, 1] - box1[:, 3] / 2, box1[:, 1] + box1[:, 3] / 2
         b2_x1, b2_x2 = box2[:, 0] - box2[:, 2] / 2, box2[:, 0] + box2[:, 2] / 2
         b2_y1, b2_y2 = box2[:, 1] - box2[:, 3] / 2, box2[:, 1] + box2[:, 3] / 2
     else:
-        # Get the coordinates of bounding boxes
+        #Get the coordinates of bounding boxes
         b1_x1, b1_y1, b1_x2, b1_y2 = box1[:, 0], box1[:, 1], box1[:, 2], box1[:, 3]
         b2_x1, b2_y1, b2_x2, b2_y2 = box2[:, 0], box2[:, 1], box2[:, 2], box2[:, 3]
-    # get the corrdinates of the intersection rectangle
+    #get the corrdinates of the intersection rectangle
     inter_rect_x1 = torch.max(b1_x1, b2_x1)
     inter_rect_y1 = torch.max(b1_y1, b2_y1)
     inter_rect_x2 = torch.min(b1_x2, b2_x2)
     inter_rect_y2 = torch.min(b1_y2, b2_y2)
-    # Intersection area
+    #Intersection area
     inter_area = torch.clamp(inter_rect_x2 - inter_rect_x1 + 1, min=0) * torch.clamp(
         inter_rect_y2 - inter_rect_y1 + 1, min=0
     )
-    # Union Area
+    #Union Area
     b1_area = (b1_x2 - b1_x1 + 1) * (b1_y2 - b1_y1 + 1)
     b2_area = (b2_x2 - b2_x1 + 1) * (b2_y2 - b2_y1 + 1)
     iou = inter_area / (b1_area + b2_area - inter_area + 1e-16)
@@ -342,26 +343,26 @@ def non_max_suppression(prediction, conf_thres=0.5, nms_thres=0.4):
     prediction[..., :4] = xywh2xyxy(prediction[..., :4])
     output = [None for _ in range(len(prediction))]
     for image_i, image_pred in enumerate(prediction):
-        # Filter out confidence scores below threshold
+        #Filter out confidence scores below threshold
         image_pred = image_pred[image_pred[:, 4] >= conf_thres]
-        # If none are remaining => process next image
+        #If none are remaining => process next image
         if not image_pred.size(0):
             continue
-        # Object confidence times class confidence
+        #Object confidence times class confidence
         score = image_pred[:, 4] * image_pred[:, 5:].max(1)[0]
-        # Sort by it
+        #Sort by it
         image_pred = image_pred[(-score).argsort()]
         class_confs, class_preds = image_pred[:, 5:].max(1, keepdim=True)
         detections = torch.cat((image_pred[:, :5], class_confs.float(), class_preds.float()), 1)
-        # Perform non-maximum suppression
+        #Perform non-maximum suppression
         keep_boxes = []
         while detections.size(0):
             large_overlap = bbox_iou(detections[0, :4].unsqueeze(0), detections[:, :4]) > nms_thres
             label_match = detections[0, -1] == detections[:, -1]
-            # Indices of boxes with lower confidence scores, large IOUs and matching labels
+            #Indices of boxes with lower confidence scores, large IOUs and matching labels
             invalid = large_overlap & label_match
             weights = detections[invalid, 4:5]
-            # Merge overlapping bboxes by order of confidence
+            #Merge overlapping bboxes by order of confidence
             detections[0, :4] = (weights * detections[invalid, :4]).sum(0) / weights.sum()
             keep_boxes += [detections[0]]
             detections = detections[~invalid]
@@ -375,7 +376,7 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     nA = pred_boxes.size(1)
     nC = pred_cls.size(-1)
     nG = pred_boxes.size(2)
-    # Output tensors
+    #Output tensors
     obj_mask = ByteTensor(nB, nA, nG, nG).fill_(0)
     noobj_mask = ByteTensor(nB, nA, nG, nG).fill_(1)
     class_mask = FloatTensor(nB, nA, nG, nG).fill_(0)
@@ -385,33 +386,33 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     tw = FloatTensor(nB, nA, nG, nG).fill_(0)
     th = FloatTensor(nB, nA, nG, nG).fill_(0)
     tcls = FloatTensor(nB, nA, nG, nG, nC).fill_(0)
-    # Convert to position relative to box
+    #Convert to position relative to box
     target_boxes = target[:, 2:6] * nG
     gxy = target_boxes[:, :2]
     gwh = target_boxes[:, 2:]
-    # Get anchors with best iou
+    #Get anchors with best iou
     ious = torch.stack([bbox_wh_iou(anchor, gwh) for anchor in anchors])
     best_ious, best_n = ious.max(0)
-    # Separate target values
+    #Separate target values
     b, target_labels = target[:, :2].long().t()
     gx, gy = gxy.t()
     gw, gh = gwh.t()
     gi, gj = gxy.long().t()
-    # Set masks
+    #Set masks
     obj_mask[b, best_n, gj, gi] = 1
     noobj_mask[b, best_n, gj, gi] = 0
-    # Set noobj mask to zero where iou exceeds ignore threshold
+    #Set noobj mask to zero where iou exceeds ignore threshold
     for i, anchor_ious in enumerate(ious.t()):
         noobj_mask[b[i], anchor_ious > ignore_thres, gj[i], gi[i]] = 0
-    # Coordinates
+    #Coordinates
     tx[b, best_n, gj, gi] = gx - gx.floor()
     ty[b, best_n, gj, gi] = gy - gy.floor()
-    # Width and height
+    #Width and height
     tw[b, best_n, gj, gi] = torch.log(gw / anchors[best_n][:, 0] + 1e-16)
     th[b, best_n, gj, gi] = torch.log(gh / anchors[best_n][:, 1] + 1e-16)
-    # One-hot encoding of label
+    #One-hot encoding of label
     tcls[b, best_n, gj, gi, target_labels] = 1
-    # Compute label correctness and iou at best anchor
+    #Compute label correctness and iou at best anchor
     class_mask[b, best_n, gj, gi] = (pred_cls[b, best_n, gj, gi].argmax(-1) == target_labels).float()
     iou_scores[b, best_n, gj, gi] = bbox_iou(pred_boxes[b, best_n, gj, gi], target_boxes, x1y1x2y2=False)
     tconf = obj_mask.float()
